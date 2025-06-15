@@ -18,7 +18,7 @@ const app = express(); // ✅ Moved above http.createServer
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://acadx.vercel.app",
+  "https://acadx-ten.vercel.app",
 ];
 
 // Middleware
