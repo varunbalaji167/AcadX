@@ -96,7 +96,7 @@
 //       setText("");
 //       scrollToBottom();
 //     } catch (err) {
-//       toast.error("❌ Failed to send", { id: "send-error" });
+//       toast.error(" Failed to send", { id: "send-error" });
 //       console.error("Send error:", err.response?.data || err.message);
 //     } finally {
 //       setSending(false);
@@ -326,7 +326,7 @@ const ChatWindow = ({ conversation, currentUser }) => {
       setText("");
       scrollToBottom();
     } catch (err) {
-      toast.error("❌ Failed to send message", { id: "send-error", duration: 3000 });
+      toast.error(" Failed to send message", { id: "send-error", duration: 3000 });
       console.error("Send error:", err.response?.data || err.message);
     } finally {
       setSending(false);

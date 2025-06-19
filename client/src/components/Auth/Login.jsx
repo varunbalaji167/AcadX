@@ -26,7 +26,7 @@
 //       login(res.data);
 //       toast.success("Login successful!", { id: "login-success" });
 //     } catch (err) {
-//       toast.error(err.response?.data?.message || "❌ Login failed", {
+//       toast.error(err.response?.data?.message || " Login failed", {
 //         id: "login-error",
 //       });
 //     } finally {
@@ -130,7 +130,7 @@ const Login = () => {
       login(res.data);
       toast.success("Login successful!", { id: "login-success" });
     } catch (err) {
-      toast.error(err.response?.data?.message || "❌ Login failed", {
+      toast.error(err.response?.data?.message || " Login failed", {
         id: "login-error",
       });
     } finally {

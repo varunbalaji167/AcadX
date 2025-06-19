@@ -38,7 +38,7 @@ const createConversation = async (req, res) => {
     const saved = await newConversation.save();
     res.status(201).json({ success: true, data: saved });
   } catch (err) {
-    console.error("❌ Error creating conversation:", err.message);
+    console.error(" Error creating conversation:", err.message);
     res.status(500).json({ success: false, message: "Server error", error: err.message });
   }
 };
@@ -59,7 +59,7 @@ const getUserConversations = async (req, res) => {
     console.log("👥 Conversations for user:", userId);
     res.json({ success: true, data: conversations });
   } catch (err) {
-    console.error("❌ Error in getUserConversations:", err.message);
+    console.error(" Error in getUserConversations:", err.message);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };

@@ -179,9 +179,28 @@ const createItem = async (req, res) => {
   }
 };
 
+// const getItems = async (req, res) => {
+//   try {
+//     const { search, courseCode, department, category } = req.query;
+
+//     const query = {};
+//     if (search) query.title = { $regex: search, $options: 'i' };
+//     if (courseCode) query.courseCode = { $regex: courseCode, $options: 'i' };
+//     if (department) query.department = { $regex: department, $options: 'i' };
+//     if (category) query.category = category;
+
+//     const items = await Item.find(query).populate('user', 'email name rollNo avatar');
+
+//     res.json({ success: true, data: items });
+//   } catch (err) {
+//     console.error('🔴 Error fetching items:', err);
+//     res.status(500).json({ success: false, message: 'Server Error' });
+//   }
+// };
+
 const getItems = async (req, res) => {
   try {
-    const { search, courseCode, department, category } = req.query;
+    const { search, courseCode, department, category, page = 1, limit = 6, random = false } = req.query;
 
     const query = {};
     if (search) query.title = { $regex: search, $options: 'i' };
@@ -189,11 +208,37 @@ const getItems = async (req, res) => {
     if (department) query.department = { $regex: department, $options: 'i' };
     if (category) query.category = category;
 
-    const items = await Item.find(query).populate('user', 'email name rollNo avatar');
+    const skip = (parseInt(page) - 1) * parseInt(limit);
 
-    res.json({ success: true, data: items });
+    let itemsQuery = Item.find(query).populate('user', 'email name rollNo avatar');
+
+if (random === 'true') {
+  const totalItems = await Item.countDocuments(query);
+  const items = await Item.aggregate([
+    { $match: query },
+    { $sample: { size: parseInt(limit) } }
+  ]);
+
+  return res.json({
+    success: true,
+    data: items,
+    page: parseInt(page),
+    totalPages: Math.ceil(totalItems / limit),
+    totalItems,
+  });
+} {
+      const totalItems = await Item.countDocuments(query);
+      const items = await itemsQuery.skip(skip).limit(parseInt(limit));
+      return res.json({
+        success: true,
+        data: items,
+        page: parseInt(page),
+        totalPages: Math.ceil(totalItems / limit),
+        totalItems
+      });
+    }
   } catch (err) {
-    console.error('🔴 Error fetching items:', err);
+    console.error('Error fetching items:', err);
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };

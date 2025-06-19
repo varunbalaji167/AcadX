@@ -36,7 +36,7 @@
 //         setConversations(processed);
 //       } catch (err) {
 //         toast.error("📭 Failed to load conversations", { id: "conv-error" });
-//         console.error("❌ Error fetching conversations:", err);
+//         console.error(" Error fetching conversations:", err);
 //       } finally {
 //         setLoading(false);
 //       }
@@ -182,7 +182,7 @@ const Inbox = () => {
         if (!toast.isActive("conv-error")) {
           toast.error("📭 Failed to load conversations", { id: "conv-error" });
         }
-        console.error("❌ Error fetching conversations:", err);
+        console.error(" Error fetching conversations:", err);
       } finally {
         setLoading(false);
       }
