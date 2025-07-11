@@ -3,6 +3,11 @@
 
 **AcadX** addresses the lack of a reliable, structured way for students to exchange academic resources. It enables peer-to-peer sharing, real-time communication, and trusted interactions within a secure academic network.
 
+## User Manual & Demo Video
+
+Access the **user manual** and **video demo** here:  
+🔗 [AcadX – User Manual & Demo Folder (Google Drive)](https://drive.google.com/drive/folders/1bYeyxT7bHV0NqcUm2QCQUl3_hw6-hjZ6?usp=drive_link)
+
 ## Table of Contents
 
 1. [Features](#features)  
