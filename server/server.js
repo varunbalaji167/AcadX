@@ -11,10 +11,11 @@ const requestRoutes = require("./routes/requestRoute");
 const ratingRoutes = require("./routes/ratingRoute");
 const conversationRoutes = require("./routes/conversationRoute");
 const messageRoutes = require("./routes/messageRoute");
+const adminRoutes = require("./routes/adminRoute");
 
 env.config();
 
-const app = express(); // ✅ Moved above http.createServer
+const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -44,6 +45,7 @@ app.use("/api/requests", requestRoutes);
 app.use("/api/ratings", ratingRoutes);
 app.use("/api/conversations", conversationRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Create HTTP server after app is defined
 const httpServer = http.createServer(app);

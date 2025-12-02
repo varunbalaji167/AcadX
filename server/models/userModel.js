@@ -1,4 +1,3 @@
-// // models/userModel.js
 // const mongoose = require("mongoose");
 // const bcrypt = require("bcryptjs");
 
@@ -7,10 +6,6 @@
 //     type: String,
 //     required: true,
 //     unique: true,
-//     // match: [
-//     //   /^[a-zA-Z0-9._%+-]+@uel\.ac\.uk$/,
-//     //   "Only @uel.ac.uk email addresses are allowed",
-//     // ],
 //     match: [
 //       /^[a-zA-Z0-9._%+-]+@iiti\.ac\.in$/,
 //       "Only @iiti.ac.in email addresses are allowed",
@@ -21,11 +16,25 @@
 //     required: true,
 //     minlength: 6,
 //   },
-//   profile: {
-//   type: mongoose.Schema.Types.ObjectId,
-//   ref: 'Profile'
-// }
-// });
+
+//   // Profile fields
+//   name: { type: String },
+//   rollNo: { type: String },
+//   degree: { type: String },
+//   bio: { type: String, default: '' },
+//   major: { type: String },
+//   avatar: { type: String },
+//   sustainabilityScore: { type: Number, default: 0 },
+
+//   ratingsReceived: [
+//     {
+//       reviewer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+//       rating: Number,
+//       review: String,
+//       date: { type: Date, default: Date.now },
+//     },
+//   ],
+// }, { timestamps: true });
 
 // userSchema.pre("save", async function (next) {
 //   if (this.isModified("password")) {
@@ -48,40 +57,57 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    match: [
-      /^[a-zA-Z0-9._%+-]+@iiti\.ac\.in$/,
-      "Only @iiti.ac.in email addresses are allowed",
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [
+        /^[a-zA-Z0-9._%+-]+@iiti\.ac\.in$/,
+        "Only @iiti.ac.in email addresses are allowed",
+      ],
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+
+    // NEW: Role Based Access Control
+    role: {
+      type: String,
+      enum: ["student", "admin"],
+      default: "student",
+    },
+
+    // NEW: Account Status (for banning users)
+    status: {
+      type: String,
+      enum: ["Active", "Banned"],
+      default: "Active",
+    },
+
+    // Profile fields
+    name: { type: String },
+    rollNo: { type: String },
+    degree: { type: String },
+    bio: { type: String, default: "" },
+    major: { type: String },
+    avatar: { type: String },
+    sustainabilityScore: { type: Number, default: 0 },
+
+    ratingsReceived: [
+      {
+        reviewer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        rating: Number,
+        review: String,
+        date: { type: Date, default: Date.now },
+      },
     ],
   },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6,
-  },
-
-  // Profile fields
-  name: { type: String },
-  rollNo: { type: String },
-  degree: { type: String },
-  bio: { type: String, default: '' },
-  major: { type: String },
-  avatar: { type: String },
-  sustainabilityScore: { type: Number, default: 0 },
-
-  ratingsReceived: [
-    {
-      reviewer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      rating: Number,
-      review: String,
-      date: { type: Date, default: Date.now },
-    },
-  ],
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {

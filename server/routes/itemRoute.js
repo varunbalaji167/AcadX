@@ -5,15 +5,17 @@ const {
   getItems,
   getItemById,
   deleteItem,
+  addItemVersion,
 } = require("../controllers/itemController");
 
-const auth = require("../middleware/authMiddleware");
-
-router.post("/", auth, createItem);
+const { authMiddleware } = require("../middleware/authMiddleware");
+router.post("/", authMiddleware, createItem);
 
 router.get("/", getItems);
 router.get("/:id", getItemById);
 
-router.delete("/:id", auth, deleteItem);
+router.delete("/:id", authMiddleware, deleteItem);
+
+router.post("/:id/versions", authMiddleware, addItemVersion);
 
 module.exports = router;

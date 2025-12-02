@@ -1,17 +1,17 @@
-const express = require('express');
+const express = require("express");
 const {
   createRequest,
   getIncomingRequests,
   updateRequestStatus,
   getOutgoingRequests,
-} = require('../controllers/requestController');
-const auth = require('../middleware/authMiddleware');
+} = require("../controllers/requestController");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.post('/', auth, createRequest);
-router.get('/incoming', auth, getIncomingRequests);
-router.get('/outgoing', auth, getOutgoingRequests); 
-router.put('/:requestId', auth, updateRequestStatus);
+router.post("/", authMiddleware, createRequest);
+router.get("/incoming", authMiddleware, getIncomingRequests);
+router.get("/outgoing", authMiddleware, getOutgoingRequests);
+router.put("/:requestId", authMiddleware, updateRequestStatus);
 
 module.exports = router;

@@ -18,6 +18,9 @@ import ItemForm from "./components/Items/ItemForm";
 import ItemDetail from "./components/Items/ItemDetail";
 import Inbox from "./components/Chats/Inbox";
 import HomePage from "./components/HomePage";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import AdminUsers from "./components/Admin/AdminUsers";
+import AdminItems from "./components/Admin/AdminItems";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -34,6 +37,21 @@ const PrivateRoute = ({ children }) => {
   }
 
   return user && user.token ? children : <Navigate to="/" replace />;
+};
+
+const AdminRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) return <p className="text-center mt-10">Checking auth...</p>;
+
+  if (!user || !user.token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.user.role !== "admin") {
+    return <Navigate to="/home" replace />;
+  }
+
+  return children;
 };
 
 const App = () => {
@@ -53,6 +71,31 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <AdminRoute>
+                  <AdminUsers />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/items"
+              element={
+                <AdminRoute>
+                  <AdminItems />
+                </AdminRoute>
+              }
+            />
 
             {/* Protected Routes */}
             <Route
